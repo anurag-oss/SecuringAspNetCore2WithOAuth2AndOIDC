@@ -1,10 +1,13 @@
-﻿using ImageGallery.Client.Services;
+﻿using IdentityModel;
+using ImageGallery.Client.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using System.Security.Cryptography;
 
 namespace ImageGallery.Client
 {
@@ -29,6 +32,26 @@ namespace ImageGallery.Client
 
             // register an IImageGalleryHttpClient
             services.AddScoped<IImageGalleryHttpClient, ImageGalleryHttpClient>();
+
+            services
+                .AddAuthentication( authenticationOptions =>
+                {
+                    authenticationOptions.DefaultScheme = "Cookies";
+                    authenticationOptions.DefaultChallengeScheme = "oidc";
+                })
+                .AddCookie("Cookies")
+                .AddOpenIdConnect("oidc", oidcConnectOptions => 
+                {
+                    oidcConnectOptions.SignInScheme = "Cookies";
+                    oidcConnectOptions.Authority = "https://localhost:44379/";
+                    oidcConnectOptions.ClientId = "imagegalleryclient";
+                    oidcConnectOptions.ResponseType = "code id_token";
+                    //oidcConnectOptions.CallbackPath = new PathString("...") Use default, no need to override
+                    oidcConnectOptions.Scope.Add("openid");
+                    oidcConnectOptions.Scope.Add("profile");
+                    oidcConnectOptions.SaveTokens = true;
+                    oidcConnectOptions.ClientSecret = "secret";
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,6 +65,8 @@ namespace ImageGallery.Client
             {
                 app.UseExceptionHandler("/Shared/Error");
             }
+
+            app.UseAuthentication();
 
             app.UseStaticFiles();
 
