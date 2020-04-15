@@ -13,6 +13,8 @@ namespace Marvin.IDP
         // localhost/.well-known/openid-configuration
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
+
             services
                 .AddIdentityServer()
                 .AddDeveloperSigningCredential()
@@ -30,6 +32,9 @@ namespace Marvin.IDP
             }
 
             app.UseIdentityServer();
+
+            app.UseStaticFiles();
+            app.UseMvcWithDefaultRoute();
 
         }
     }
