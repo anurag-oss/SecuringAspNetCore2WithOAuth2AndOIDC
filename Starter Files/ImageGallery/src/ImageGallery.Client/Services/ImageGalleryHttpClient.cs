@@ -15,7 +15,8 @@ namespace ImageGallery.Client.Services
         {
             _httpContextAccessor = httpContextAccessor;
         }
-        
+
+#pragma warning disable 1998
         public async Task<HttpClient> GetClient()
         {      
             _httpClient.BaseAddress = new Uri("http://localhost:1601/");
@@ -24,7 +25,8 @@ namespace ImageGallery.Client.Services
                 new MediaTypeWithQualityHeaderValue("application/json"));
 
             return _httpClient;
-        }        
+        }
+#pragma warning restore 1998
     }
 }
 
