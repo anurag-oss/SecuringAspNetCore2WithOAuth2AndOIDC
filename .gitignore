@@ -535,3 +535,9 @@ $RECYCLE.BIN/
 # Backup folder for Package Reference Convert tool in Visual Studio 2017
 
 # End of https://www.gitignore.io/api/csharp,windows,visualstudio
+
+# IdentityServer4
+# At first startup, IdentityServer will create a developer signing key for you, it's a file called tempkey.rsa. 
+# You don't have to check that file into your source control, it will be re-created if it is not present.
+# https://github.com/IdentityServer/IdentityServer4/blob/master/docs/quickstarts/1_client_credentials.rst
+tempkey.rsa
