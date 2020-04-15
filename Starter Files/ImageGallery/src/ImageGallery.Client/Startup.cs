@@ -47,6 +47,7 @@ namespace ImageGallery.Client
                     oidcConnectOptions.ClientId = "imagegalleryclient";
                     oidcConnectOptions.ResponseType = "code id_token";
                     //oidcConnectOptions.CallbackPath = new PathString("...") Use default, no need to override
+                    //oidcConnectOptions.SignedOutCallbackPath = new PathString("...") Use default, no need to override
                     oidcConnectOptions.Scope.Add("openid");
                     oidcConnectOptions.Scope.Add("profile");
                     oidcConnectOptions.SaveTokens = true;
