@@ -52,6 +52,7 @@ namespace ImageGallery.Client
                     oidcConnectOptions.Scope.Add("profile");
                     oidcConnectOptions.SaveTokens = true;
                     oidcConnectOptions.ClientSecret = "secret";
+                    oidcConnectOptions.GetClaimsFromUserInfoEndpoint = true;
                 });
         }
 
