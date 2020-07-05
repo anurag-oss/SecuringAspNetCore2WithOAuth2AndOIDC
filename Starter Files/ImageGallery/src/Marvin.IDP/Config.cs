@@ -22,6 +22,7 @@ namespace Marvin.IDP
                     {
                         new Claim("given_name", "Frank"),
                         new Claim("family_name", "Underwood"),
+                        new Claim("address", "Main Road 1")
                     }
                 },
 
@@ -35,6 +36,7 @@ namespace Marvin.IDP
                     {
                         new Claim("given_name", "Claire"),
                         new Claim("family_name", "Underwood"),
+                        new Claim("address", "Big Street 2")
                     }
                 }
             };
@@ -47,6 +49,7 @@ namespace Marvin.IDP
             {
                 new IdentityResources.OpenId(), // SubjectId is returned
                 new IdentityResources.Profile(), // Profile is returned
+                new IdentityResources.Address(), // Address resource can be returned by IdentityServer4 for any client
             };
         }
 
@@ -71,6 +74,7 @@ namespace Marvin.IDP
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Address, // The particular client is allowed to ask for address info
                     },
                     ClientSecrets = new List<Secret>
                     {

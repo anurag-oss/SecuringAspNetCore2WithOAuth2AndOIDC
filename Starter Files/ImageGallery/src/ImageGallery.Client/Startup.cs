@@ -73,6 +73,12 @@ namespace ImageGallery.Client
                     //oidcConnectOptions.SignedOutCallbackPath = new PathString("...") Use default[signout-callback-oidc], no need to override
                     oidcConnectOptions.Scope.Add("openid");
                     oidcConnectOptions.Scope.Add("profile");
+                    oidcConnectOptions.Scope.Add("address");// The access token wil contain the permission to seek address from user_info later.
+                    // Explore the JWt access  token 
+                    // "idp": "local",  "scope": [    "openid",    "profile",    "address"  ],  "amr": [    "pwd"  ]
+
+
+
                     oidcConnectOptions.SaveTokens = true; // The tokens will be saved in the properties section of cookie
                     oidcConnectOptions.ClientSecret = "secret";
                     oidcConnectOptions.GetClaimsFromUserInfoEndpoint = true;
@@ -87,6 +93,8 @@ namespace ImageGallery.Client
                     //Claim type: amr - Claim value: pwd
                     //Claim type: given_name - Claim value: Frank
                     //Claim type: family_name - Claim value: Underwood
+
+                    //oidcConnectOptions.ClaimActions.DeleteClaim("address"); // By default address claim is not mapped
                 });
         }
 
