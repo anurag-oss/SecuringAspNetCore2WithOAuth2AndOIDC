@@ -208,6 +208,21 @@ namespace ImageGallery.Client.Controllers
             {
                 Debug.WriteLine($"Claim type: {claim.Type} - Claim value: {claim.Value}");
             }
+
+            bool isPayingUser = this.User.Claims.Where(c => c.Type == System.Security.Claims.ClaimTypes.Role).Where(c => c.Value == "PayingUser").Any();
+            if (isPayingUser)
+            {
+                Debug.WriteLine("User has PayingUser claim");
+
+                if (this.User.IsInRole("PayingUser"))
+                {
+                    Debug.WriteLine("The PayingUser role has been correctly set");
+                }
+                else
+                {
+                    Debug.WriteLine("User is missing the PayingUser role");
+                }
+            }
         }
 
         public async Task Logout()

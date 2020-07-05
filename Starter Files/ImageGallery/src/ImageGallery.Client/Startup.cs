@@ -98,8 +98,13 @@ namespace ImageGallery.Client
                     //Claim type: family_name - Claim value: Underwood
 
                     //oidcConnectOptions.ClaimActions.DeleteClaim("address"); // By default address claim is not mapped
-                    oidcConnectOptions.ClaimActions.MapUniqueJsonKey("role", "role");
 
+                    // The issue at hand is that the identity system for ASP.NET Core relies on the ClaimTypes.Role constant 
+                    // (http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role) 
+                    // to determine the roles of the user. However, the name of the claim that corresponds to the role on an OpenID JWT token is simply role. 
+                    // Any time you need to merge OIDC identity and ASP.NET identity, you have to translate claims like this. 
+                    // https://stackoverflow.com/questions/58246254/identityserver4-role-based-authorization-on-multiple-roles
+                    oidcConnectOptions.ClaimActions.MapUniqueJsonKey(System.Security.Claims.ClaimTypes.Role, "role");
                 });
         }
 
