@@ -99,12 +99,19 @@ namespace ImageGallery.Client
 
                     //oidcConnectOptions.ClaimActions.DeleteClaim("address"); // By default address claim is not mapped
 
-                    // The issue at hand is that the identity system for ASP.NET Core relies on the ClaimTypes.Role constant 
-                    // (http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role) 
-                    // to determine the roles of the user. However, the name of the claim that corresponds to the role on an OpenID JWT token is simply role. 
-                    // Any time you need to merge OIDC identity and ASP.NET identity, you have to translate claims like this. 
-                    // https://stackoverflow.com/questions/58246254/identityserver4-role-based-authorization-on-multiple-roles
-                    oidcConnectOptions.ClaimActions.MapUniqueJsonKey(System.Security.Claims.ClaimTypes.Role, "role");
+                    oidcConnectOptions.ClaimActions.MapUniqueJsonKey("role", "role");
+
+                    oidcConnectOptions.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                    {
+                        // https://leastprivilege.com/2017/11/15/missing-claims-in-the-asp-net-core-2-openid-connect-handler/
+                        // The mismatch in names bewteen Jwt Claim names and Asp.Net Identity fields.
+                        // https://andrewlock.net/introduction-to-authentication-with-asp-net-core/
+                        // As mentioned previously, the role based authorisation is mostly around for backwards compatibility reasons, 
+                        // so the method IsInRole will be generally unneeded if you adhere to the claims-based authentication emphasised in ASP.NET Core. 
+                        // Under the hood, this is also just implemented using claims, where the claim type defaults to RoleClaimType, or ClaimType.Role.
+                        NameClaimType = JwtClaimTypes.GivenName,
+                        RoleClaimType = JwtClaimTypes.Role,
+                    };
                 });
         }
 

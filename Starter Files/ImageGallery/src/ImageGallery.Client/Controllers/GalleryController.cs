@@ -171,6 +171,7 @@ namespace ImageGallery.Client.Controllers
             throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
         }
         
+        [Authorize(Roles = "PayingUser")]
         public async Task<IActionResult> OrderFrame()
         {
             DiscoveryClient discoveryClient = new DiscoveryClient("https://localhost:44379");
@@ -209,7 +210,7 @@ namespace ImageGallery.Client.Controllers
                 Debug.WriteLine($"Claim type: {claim.Type} - Claim value: {claim.Value}");
             }
 
-            bool isPayingUser = this.User.Claims.Where(c => c.Type == System.Security.Claims.ClaimTypes.Role).Where(c => c.Value == "PayingUser").Any();
+            bool isPayingUser = this.User.Claims.Where(c => c.Type == "role").Where(c => c.Value == "PayingUser").Any();
             if (isPayingUser)
             {
                 Debug.WriteLine("User has PayingUser claim");
