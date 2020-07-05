@@ -36,6 +36,9 @@ namespace ImageGallery.Client
             services
                 .AddAuthentication( authenticationOptions =>
                 {
+                    // There is a overloaded AddAuthentication method which just takes the name of default scheme
+                    // By using AuthencticationOptions we can use different default schemes for different actions like
+                    // challenge, sign-in , sign-out, forbid
                     authenticationOptions.DefaultScheme = "Cookies";
                     authenticationOptions.DefaultChallengeScheme = "oidc";
                 })
@@ -43,14 +46,14 @@ namespace ImageGallery.Client
                 .AddOpenIdConnect("oidc", oidcConnectOptions => 
                 {
                     oidcConnectOptions.SignInScheme = "Cookies";
-                    oidcConnectOptions.Authority = "https://localhost:44379/";
+                    oidcConnectOptions.Authority = "https://localhost:44379/"; // The base url from where one can find the discovery and eventually other endpoints
                     oidcConnectOptions.ClientId = "imagegalleryclient";
-                    oidcConnectOptions.ResponseType = "code id_token";
-                    //oidcConnectOptions.CallbackPath = new PathString("...") Use default, no need to override
-                    //oidcConnectOptions.SignedOutCallbackPath = new PathString("...") Use default, no need to override
+                    oidcConnectOptions.ResponseType = "code id_token"; // Corresponds to hybrid flow
+                    //oidcConnectOptions.CallbackPath = new PathString("...") Use default [signin-oidc"], no need to override
+                    //oidcConnectOptions.SignedOutCallbackPath = new PathString("...") Use default[signout-callback-oidc], no need to override
                     oidcConnectOptions.Scope.Add("openid");
                     oidcConnectOptions.Scope.Add("profile");
-                    oidcConnectOptions.SaveTokens = true;
+                    oidcConnectOptions.SaveTokens = true; // The tokens will be saved in the properties section of cookie
                     oidcConnectOptions.ClientSecret = "secret";
                     oidcConnectOptions.GetClaimsFromUserInfoEndpoint = true;
                 });

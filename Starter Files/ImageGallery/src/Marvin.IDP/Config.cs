@@ -58,7 +58,7 @@ namespace Marvin.IDP
                 {
                     ClientName = "Image Gallery",
                     ClientId = "imagegalleryclient",
-                    AllowedGrantTypes = GrantTypes.Hybrid,
+                    AllowedGrantTypes = GrantTypes.Hybrid, // We are using hybrid flow
                     RedirectUris = new List<string>
                     {
                         "https://localhost:44355/signin-oidc"

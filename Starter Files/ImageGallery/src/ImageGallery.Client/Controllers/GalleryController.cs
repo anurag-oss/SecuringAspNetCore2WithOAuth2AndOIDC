@@ -171,11 +171,18 @@ namespace ImageGallery.Client.Controllers
         
         public async Task WriteOutIdentityInformation()
         {
+            // We had asked the token to be saved in StartUp
+            // oidcConnectOptions.SaveTokens = true;
             var identityToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.IdToken);
-
             Debug.WriteLine($"Identity Token: {identityToken}");
 
-            foreach (var claim in User.Claims)
+
+            // Let us also try to get other tokens
+            var accessToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
+            Debug.WriteLine($"Access Token: {accessToken}");
+
+            // The id_token was converted into User identity which is represented as ClaimsPrincipal
+            foreach (var claim in this.User.Claims)
             {
                 Debug.WriteLine($"Claim type: {claim.Type} - Claim value: {claim.Value}");
             }
@@ -184,6 +191,10 @@ namespace ImageGallery.Client.Controllers
         public async Task Logout()
         {
             await HttpContext.SignOutAsync("Cookies");
+
+            // we also need to log out from the session created by the identity provider.
+            // Not sure if this is required for AAD though.
+            // Is it mandatory that the IDP will have created a session
             await HttpContext.SignOutAsync("oidc");
         }
     }
