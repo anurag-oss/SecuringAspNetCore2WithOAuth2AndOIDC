@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace ImageGallery.API.Controllers
 {
@@ -29,8 +30,11 @@ namespace ImageGallery.API.Controllers
         [HttpGet()]
         public IActionResult GetImages()
         {
+            var ownerId = this.User.Claims.FirstOrDefault(c => c.Type == "sub").Value;
+
+
             // get from repo
-            var imagesFromRepo = _galleryRepository.GetImages();
+            var imagesFromRepo = _galleryRepository.GetImages(ownerId);
 
             // map to model
             var imagesToReturn = Mapper.Map<IEnumerable<Model.Image>>(imagesFromRepo);

@@ -26,7 +26,7 @@ namespace ImageGallery.Client
 
             // Before
             //Claim type: sid - Claim value: 737f341c029bf2f86cf2bc5b85a2842e
-            //Claim type: http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier - Claim value: BD23DFD5-9192-49AE-880A-9F0C71FB14CF
+            //Claim type: http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier - Claim value: d860efca-22d9-47fd-8249-791ba61b07c7
             //Claim type: http://schemas.microsoft.com/identity/claims/identityprovider - Claim value: local
             //Claim type: http://schemas.microsoft.com/claims/authnmethodsreferences - Claim value: pwd
             //Claim type: given_name - Claim value: Frank
@@ -39,7 +39,7 @@ namespace ImageGallery.Client
             //Claim type: given_name - Claim value: Frank
             //Claim type: family_name - Claim value: Underwood
         }
- 
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
