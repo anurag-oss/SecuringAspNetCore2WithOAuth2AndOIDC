@@ -1,6 +1,7 @@
 ﻿using IdentityServer4;
 using IdentityServer4.Models;
 using IdentityServer4.Test;
+
 using System.Collections.Generic;
 using System.Security.Claims;
 
@@ -57,6 +58,15 @@ namespace Marvin.IDP
             };
         }
 
+        // Api related resources scopes
+        public static IEnumerable<ApiResource> GetApiResource()
+        {
+            return new List<ApiResource>
+            {
+                new ApiResource("imagegalleryapi", "Image Gallery API")
+            };
+        }
+
         public static IEnumerable<Client> GetClients()
         {
             return new List<Client>
@@ -79,7 +89,8 @@ namespace Marvin.IDP
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
                         IdentityServerConstants.StandardScopes.Address, // The particular client is allowed to ask for address info
-                        "roles"
+                        "roles",
+                        "imagegalleryapi"
                     },
                     ClientSecrets = new List<Secret>
                     {

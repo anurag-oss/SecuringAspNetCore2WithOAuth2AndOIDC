@@ -81,6 +81,7 @@ namespace ImageGallery.Client
                     // Explore the JWt access  token 
                     // "idp": "local",  "scope": [    "openid",    "profile",    "address"  ],  "amr": [    "pwd"  ]
                     oidcConnectOptions.Scope.Add("roles");
+                    oidcConnectOptions.Scope.Add("imagegalleryapi");
 
 
 

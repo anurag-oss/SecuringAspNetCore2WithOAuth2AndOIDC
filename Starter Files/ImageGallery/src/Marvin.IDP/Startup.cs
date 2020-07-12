@@ -20,6 +20,7 @@ namespace Marvin.IDP
                 .AddDeveloperSigningCredential()
                 .AddTestUsers(Config.GetUsers())
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
+                .AddInMemoryApiResources(Config.GetApiResource())
                 .AddInMemoryClients(Config.GetClients());
         }
 

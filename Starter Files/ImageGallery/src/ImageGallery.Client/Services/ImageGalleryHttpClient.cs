@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -16,9 +19,16 @@ namespace ImageGallery.Client.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-#pragma warning disable 1998
         public async Task<HttpClient> GetClient()
-        {      
+        {
+            string accessToken = string.Empty;
+            accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
+
+            if (!string.IsNullOrWhiteSpace(accessToken))
+            {
+                _httpClient.SetBearerToken(accessToken);
+            }
+
             _httpClient.BaseAddress = new Uri("https://localhost:44351/");
             _httpClient.DefaultRequestHeaders.Accept.Clear();
             _httpClient.DefaultRequestHeaders.Accept.Add(
@@ -26,7 +36,6 @@ namespace ImageGallery.Client.Services
 
             return _httpClient;
         }
-#pragma warning restore 1998
     }
 }
 
