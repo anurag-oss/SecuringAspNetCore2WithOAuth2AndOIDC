@@ -19,7 +19,7 @@ namespace ImageGallery.Client.Services
 #pragma warning disable 1998
         public async Task<HttpClient> GetClient()
         {      
-            _httpClient.BaseAddress = new Uri("http://localhost:1601/");
+            _httpClient.BaseAddress = new Uri("https://localhost:44351/");
             _httpClient.DefaultRequestHeaders.Accept.Clear();
             _httpClient.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
