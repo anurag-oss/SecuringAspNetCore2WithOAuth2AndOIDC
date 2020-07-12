@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
 
@@ -53,6 +54,16 @@ namespace ImageGallery.Client
             // register an IImageGalleryHttpClient
             services.AddScoped<IImageGalleryHttpClient, ImageGalleryHttpClient>();
 
+            services.AddAuthorization(authorizationOptions =>
+            {
+                authorizationOptions.AddPolicy("CanOrderFrame", policyBuilder => 
+                {
+                    policyBuilder.RequireAuthenticatedUser();
+                    policyBuilder.RequireClaim("country", new List<string> { "be" });
+                    policyBuilder.RequireClaim("subscriptionLevel", new List<string> { "PayingUser" });
+                });
+            });
+
             services
                 .AddAuthentication( authenticationOptions =>
                 {
@@ -84,6 +95,10 @@ namespace ImageGallery.Client
                     oidcConnectOptions.Scope.Add("imagegalleryapi");
 
 
+                    oidcConnectOptions.Scope.Add("country");
+                    oidcConnectOptions.Scope.Add("subscriptionLevel");
+
+
 
                     oidcConnectOptions.SaveTokens = true; // The tokens will be saved in the properties section of cookie
                     oidcConnectOptions.ClientSecret = "secret";
@@ -104,6 +119,9 @@ namespace ImageGallery.Client
                     //oidcConnectOptions.ClaimActions.DeleteClaim("address"); // By default address claim is not mapped
 
                     oidcConnectOptions.ClaimActions.MapUniqueJsonKey("role", "role");
+
+                    oidcConnectOptions.ClaimActions.MapUniqueJsonKey("country", "country");
+                    oidcConnectOptions.ClaimActions.MapUniqueJsonKey("subscriptionLevel", "subscriptionLevel");
 
                     oidcConnectOptions.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
                     {

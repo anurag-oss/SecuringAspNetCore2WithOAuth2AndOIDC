@@ -38,8 +38,7 @@
                     {
                         <li><a asp-area="" asp-controller="Gallery" asp-action="AddImage">Add an image</a></li>
                     }
-
-                    @if (this.User.IsInRole("PayingUser"))
+                    @if ((await AuthorizationService.AuthorizeAsync(user: this.User, policyName: "CanOrderFrame")).Succeeded)
                     {
                         <li><a asp-area="" asp-controller="Gallery" asp-action="OrderFrame">Order a framed picture</a></li>
                     }

@@ -25,6 +25,8 @@ namespace Marvin.IDP
                         new Claim("family_name", "Underwood"),
                         new Claim("address", "Main Road 1"),
                         new Claim("role", "FreeUser"),
+                        new Claim("country", "nl"),
+                        new Claim("subscriptionLevel", "FreeUser"),
                     }
                 },
 
@@ -40,6 +42,8 @@ namespace Marvin.IDP
                         new Claim("family_name", "Underwood"),
                         new Claim("address", "Big Street 2"),
                         new Claim("role", "PayingUser"),
+                        new Claim("country", "be"),
+                        new Claim("subscriptionLevel", "PayingUser"),
                     }
                 }
             };
@@ -55,6 +59,8 @@ namespace Marvin.IDP
                 new IdentityResources.Address(), // Address resource can be returned by IdentityServer4 for any client
 
                 new IdentityResource("roles", "Your role(s)", new List<string> { "role" }),
+                new IdentityResource("country", "Your country of residence", new List<string> { "country" }),
+                new IdentityResource("subscriptionLevel", "Your subscription level", new List<string> { "subscriptionLevel" }),
             };
         }
 
@@ -91,7 +97,11 @@ namespace Marvin.IDP
                         IdentityServerConstants.StandardScopes.Profile,
                         IdentityServerConstants.StandardScopes.Address, // The particular client is allowed to ask for address info
                         "roles",
-                        "imagegalleryapi"
+                        "imagegalleryapi",
+                        "country",
+                        "subscriptionLevel",
+
+
                     },
                     ClientSecrets = new List<Secret>
                     {
