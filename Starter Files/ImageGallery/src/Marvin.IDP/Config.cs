@@ -4,6 +4,7 @@ using IdentityServer4.Test;
 
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Security.Cryptography;
 
 namespace Marvin.IDP
 {
@@ -70,7 +71,13 @@ namespace Marvin.IDP
             return new List<ApiResource>
             {
                 // The access token will contain role claims
-                new ApiResource("imagegalleryapi", "Image Gallery API", new List<string> { "role" }) 
+                new ApiResource("imagegalleryapi", "Image Gallery API", new List<string> { "role" })
+                {
+                    ApiSecrets = new List<Secret>
+                    { 
+                        new Secret("apisecret".Sha256())
+                    }
+                }
             };
         }
 
@@ -83,6 +90,8 @@ namespace Marvin.IDP
                     ClientName = "Image Gallery",
                     ClientId = "imagegalleryclient",
                     AllowedGrantTypes = GrantTypes.Hybrid, // We are using hybrid flow
+
+                    AccessTokenType = AccessTokenType.Reference,// Request for a reference token instead of a JWT
 
                     // IdentityTokenLifetime =  leave default of 5 minutess
                     // AuthorizationCodeLifetime = leave default of 5 minutes

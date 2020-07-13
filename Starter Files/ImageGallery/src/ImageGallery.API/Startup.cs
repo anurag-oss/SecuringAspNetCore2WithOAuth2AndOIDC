@@ -51,6 +51,8 @@ namespace ImageGallery.API
                         options.Authority = "https://localhost:44379/";
                         // The audience has to match
                         options.ApiName = "imagegalleryapi";
+                        // The api backend will use this secret for introspection end point
+                        options.ApiSecret = "apisecret"; 
                     }
                 );
 
