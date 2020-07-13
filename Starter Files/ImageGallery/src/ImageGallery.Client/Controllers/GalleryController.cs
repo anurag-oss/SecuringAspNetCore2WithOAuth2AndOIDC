@@ -234,6 +234,36 @@ namespace ImageGallery.Client.Controllers
 
         public async Task Logout()
         {
+            // Get metadata
+            var discoveryClient = new DiscoveryClient("https://localhost:44379/");
+            var metaDataResponse = await discoveryClient.GetAsync();
+
+            // Revoke the access token and refresh token
+            var revocationClient = new TokenRevocationClient(metaDataResponse.RevocationEndpoint, "imagegalleryclient", "secret");
+            
+            var accessToken = await this.HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
+            if (!string.IsNullOrWhiteSpace(accessToken))
+            {
+                var respose = await revocationClient.RevokeAccessTokenAsync(accessToken);
+
+                if (respose.IsError)
+                {
+                    throw new Exception("Failure in revoking access token", respose.Exception);
+                }
+            }
+
+            var refreshToken = await this.HttpContext.GetTokenAsync(OpenIdConnectParameterNames.RefreshToken);
+            if (!string.IsNullOrWhiteSpace(refreshToken))
+            {
+                var respose = await revocationClient.RevokeRefreshTokenAsync(refreshToken);
+
+                if (respose.IsError)
+                {
+                    throw new Exception("Failure in revoking refresh token", respose.Exception);
+                }
+            }
+
+
             await HttpContext.SignOutAsync("Cookies");
 
             // we also need to log out from the session created by the identity provider.
