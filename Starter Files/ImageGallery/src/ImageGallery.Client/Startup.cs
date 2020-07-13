@@ -94,11 +94,10 @@ namespace ImageGallery.Client
                     oidcConnectOptions.Scope.Add("roles");
                     oidcConnectOptions.Scope.Add("imagegalleryapi");
 
-
                     oidcConnectOptions.Scope.Add("country");
                     oidcConnectOptions.Scope.Add("subscriptionLevel");
 
-
+                    oidcConnectOptions.Scope.Add("offline_access"); // Ask for the refresh token
 
                     oidcConnectOptions.SaveTokens = true; // The tokens will be saved in the properties section of cookie
                     oidcConnectOptions.ClientSecret = "secret";

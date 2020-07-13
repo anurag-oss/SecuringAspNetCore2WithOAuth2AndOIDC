@@ -83,6 +83,15 @@ namespace Marvin.IDP
                     ClientName = "Image Gallery",
                     ClientId = "imagegalleryclient",
                     AllowedGrantTypes = GrantTypes.Hybrid, // We are using hybrid flow
+
+                    // IdentityTokenLifetime =  leave default of 5 minutess
+                    // AuthorizationCodeLifetime = leave default of 5 minutes
+                    AccessTokenLifetime = 120, // lets set to 120 seconds for our demo purpose, so that refresh token use is trigerred
+                    AllowOfflineAccess = true, // Allow for refresh tokens
+                    // AbsoluteRefreshTokenLifetime = leave the default value of 1 month
+                    // RefreshTokenExpiration = Leave the default of TokenExpiration.Absolute;
+                    UpdateAccessTokenClaimsOnRefresh = true, // update the claims when getting a new access token using the refresh token
+
                     RedirectUris = new List<string>
                     {
                         "https://localhost:44355/signin-oidc"
